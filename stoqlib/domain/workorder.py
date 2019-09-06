@@ -719,6 +719,10 @@ class WorkOrder(IdentifiableDomain):
     #: Number of supplier order.
     supplier_order = UnicodeCol()
 
+    #: FIX arquivo. 
+    attachment_id = IdCol()
+    attachment = Reference(attachment_id, 'Attachment.id')
+
     @property
     def status_str(self):
         return self.statuses[self.status]
@@ -1165,6 +1169,9 @@ class WorkOrder(IdentifiableDomain):
         self.deliver_date = localnow()
         self._change_status(self.STATUS_DELIVERED)
 
+    def add_file(self):
+        return "arquivo enviado"
+
     def change_status(self, new_status, reason=None):
         """
         Change the status of this work order
@@ -1410,6 +1417,10 @@ class WorkOrderView(Viewable):
     equipment = Coalesce(Concat(Sellable.description, u" - ", WorkOrder.description),
                          WorkOrder.description)
     supplier_order = WorkOrder.supplier_order
+
+    # FIX arquivo
+    attachment_id = WorkOrder.attachment_id
+    attachment = Reference(attachment_id, 'Attachment.id')
 
     # WorkOrderCategory
     category_id = WorkOrderCategory.id
