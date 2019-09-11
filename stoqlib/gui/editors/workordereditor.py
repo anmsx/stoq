@@ -124,7 +124,7 @@ class WorkOrderEditor(BaseEditor):
             branch=branch,
             category=self._default_category,
             defect_detected=defect_detected,
-            attachment = AttachmentField(_('Attachment'))
+            attachment = AttachmentField(_('Attachment')).attachment
         )
 
 #    def fields(self):
